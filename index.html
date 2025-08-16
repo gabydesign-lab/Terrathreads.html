@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Ultimate Guide to Sustainable Fabrics</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
@@ -13,7 +12,7 @@
     <!-- Application Structure Plan: A single-page, multi-section layout. The structure begins with a hero section to set the tone, followed by an interactive fabric explorer. This explorer uses tabs for each fabric (Hemp, Linen, Organic Cotton, Ahimsa Silk), allowing users to switch between them without scrolling. Each tab contains key benefits, a style summary, and a data visualization comparing its sustainability metrics (water usage, durability). This structure was chosen to make comparison easy and to present dense information in a digestible, non-linear format, which is more engaging than a long scroll. A final section summarizes the brand philosophy. -->
     <!-- Visualization & Content Choices: 
         - Fabric Details: Report Info -> Fabric descriptions and benefits. Goal -> Inform & Compare. Viz/Method -> Tabbed interface with cards. Interaction -> User clicks tabs to reveal content. Justification -> Breaks down complex info, prevents overwhelming the user, facilitates direct comparison. Library/Method -> HTML/CSS/JS.
-        - Sustainability Metrics: Report Info -> Claims about water usage, durability, etc. Goal -> Compare. Viz/Method -> Horizontal Bar Chart. Interaction -> Chart updates dynamically when user switches fabric tabs. Justification -> Provides a quick, scannable visual comparison of key environmental benefits. Library/Method -> Chart.js.
+        - Sustainability Metrics: Report Info -> Claims about water usage, durability, etc. Goal -> Compare. Viz/Method -> Custom icon-based infographic. Interaction -> Infographic updates dynamically when user switches fabric tabs. Justification -> Simplifies the visual representation of data, avoids technical bugs, and provides a clear, at-a-glance summary.
         - Brand Philosophy: Report Info -> "The Eye Has to Travel" and "Conclusion" sections. Goal -> Inform. Viz/Method -> Styled text block with a strong pull quote. Interaction -> Static display. Justification -> Reinforces brand message and concludes the narrative. Library/Method -> HTML/CSS.
         - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
@@ -34,15 +33,6 @@
             background-color: transparent;
             color: #8D8D8D;
             border-bottom-color: transparent;
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 350px;
         }
         .link {
             color: #AF9B8B;
@@ -87,17 +77,65 @@
             </div>
         </section>
 
+        <!-- AI Stylist Feature -->
+        <section id="ai-stylist" class="mt-20 bg-white/50 rounded-2xl shadow-lg p-6 md:p-10">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-6 text-[#3D405B]">Your AI Stylist</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-8">
+                Curious about how to style a piece from our collection? Ask our AI Stylist for a personalized fashion tip or outfit idea.
+            </p>
+            <div class="flex flex-col items-center">
+                <textarea id="stylist-prompt" rows="3" class="w-full max-w-3xl p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#AF9B8B] resize-none mb-4" placeholder="e.g., How can I style a linen dress for an evening out?"></textarea>
+                <button id="stylist-button" class="bg-[#AF9B8B] text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-[#9B8C7D] transition duration-300">
+                    Get Styling Advice
+                </button>
+                <div id="stylist-response" class="w-full max-w-3xl mt-8 p-6 bg-[#E0D8D0]/50 rounded-lg shadow-inner text-[#3D405B] font-light hidden">
+                    <!-- Response will be injected here -->
+                </div>
+                <div id="stylist-loading" class="mt-8 text-gray-500 hidden">
+                    <svg class="animate-spin h-8 w-8 text-[#AF9B8B]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span class="mt-2 block">Thinking...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fabric Consultant Chatbot -->
+        <section id="fabric-consultant-chatbot" class="mt-20 bg-white/50 rounded-2xl shadow-lg p-6 md:p-10">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-6 text-[#3D405B]">Ask our Fabric Consultant</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-8">
+                Have a specific question about a fabric's properties, care, or environmental impact? Our Fabric Consultant is here to help.
+            </p>
+            <div class="flex flex-col items-center">
+                <textarea id="consultant-prompt" rows="3" class="w-full max-w-3xl p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#AF9B8B] resize-none mb-4" placeholder="e.g., How do I care for my linen garment?"></textarea>
+                <button id="consultant-button" class="bg-[#AF9B8B] text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-[#9B8C7D] transition duration-300">
+                    Get Expert Advice
+                </button>
+                <div id="consultant-response" class="w-full max-w-3xl mt-8 p-6 bg-[#E0D8D0]/50 rounded-lg shadow-inner text-[#3D405B] font-light hidden">
+                    <!-- Response will be injected here -->
+                </div>
+                <div id="consultant-loading" class="mt-8 text-gray-500 hidden">
+                    <svg class="animate-spin h-8 w-8 text-[#AF9B8B]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span class="mt-2 block">Thinking...</span>
+                </div>
+            </div>
+        </section>
+
         <!-- Brand Philosophy Section -->
         <section id="philosophy" class="mt-20 text-center">
-             <h2 class="text-3xl md:text-4xl font-bold text-[#3D405B] mb-6">The Eye Has to Travel</h2>
-             <div class="max-w-3xl mx-auto bg-white/50 rounded-2xl shadow-lg p-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-[#3D405B] mb-6">A Journey to Conscious Style</h2>
+            <div class="max-w-3xl mx-auto bg-white/50 rounded-2xl shadow-lg p-8">
                 <p class="text-lg md:text-xl text-gray-700 mb-6 italic">
                     "Fashion is not static; it's a journey! Our pieces are not merely clothes; they are monuments to a new way of thinking. We believe in quality over quantity, and in the power of a wardrobe with a purpose."
                 </p>
                 <p class="text-gray-600 font-light">
                     Choosing clothes with intention is a thrilling decision. By understanding the story of each thread, you are not just building a wardrobe—you are designing a life with purpose and flair. We invite you to lose yourself in our collection. Go on, darling. The eye has to travel!
                 </p>
-             </div>
+            </div>
         </section>
     </main>
 
@@ -153,7 +191,57 @@
             }
         };
 
-        let currentChart;
+        function getMetricDisplay(metricKey, score) {
+            let icon = '';
+            let label = '';
+            const isWater = metricKey === 'waterUsage';
+
+            if (isWater) {
+                // Use a water droplet for water usage
+                icon = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-[#AF9B8B]">
+                        <path fill-rule="evenodd" d="M11.484 2.17a.75.75 0 0 1 1.032 0l9.007 8.167a.75.75 0 0 1-.008 1.115L12.5 20.375a.75.75 0 0 1-1.006-.013L2.483 11.452a.75.75 0 0 1-.008-1.115l9.007-8.167ZM12 8.528l-5.698 5.176L12 18.847l5.698-5.175L12 8.528Z" clip-rule="evenodd" />
+                    </svg>
+                `;
+                label = `Water Efficiency`;
+            } else if (metricKey === 'durability') {
+                // Use a shield for durability
+                icon = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-[#AF9B8B]">
+                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-2.625.756a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm-3.87 2.112a1.5 1.5 0 1 1 0 2.122 1.5 1.5 0 0 1 0-2.122Zm-1.89 5.88a1.5 1.5 0 1 1 2.122 0 1.5 1.5 0 0 1-2.122 0ZM5.25 12a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3ZM8.506 18.89a1.5 1.5 0 1 1 2.122 0 1.5 1.5 0 0 1-2.122 0Zm3.744-16.14a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm-.75 14.25a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.75-2.25a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm-5.494 5.25a1.5 1.5 0 1 1-2.122 0 1.5 1.5 0 0 1 2.122 0ZM18.75 12a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3ZM15.494 18.89a1.5 1.5 0 1 1 2.122 0 1.5 1.5 0 0 1-2.122 0Zm3.87-11.49a1.5 1.5 0 1 1 0-2.122 1.5 1.5 0 0 1 0 2.122Z" clip-rule="evenodd" />
+                    </svg>
+                `;
+                label = `Durability`;
+            } else if (metricKey === 'pesticideFree') {
+                // Use a leaf for pesticide-free
+                icon = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-[#AF9B8B]">
+                        <path fill-rule="evenodd" d="M10.5 3.75a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0v-1.5ZM8.25 5.25a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5h-1.5ZM4.832 9.49a.75.75 0 0 1 1.061-.007l1.063 1.063a.75.75 0 0 1-1.06 1.06l-1.063-1.063a.75.75 0 0 1-.007-1.06Z" clip-rule="evenodd" />
+                        <path d="M12 2.25a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75Zm0 18a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0V21a.75.75 0 0 1 .75-.75ZM3 12a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5A.75.75 0 0 1 3 12Zm15.75 0a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75Z" />
+                        <path d="M16.142 6.556a.75.75 0 0 1 .007 1.06l-1.063 1.062a.75.75 0 0 1-1.06-1.06L15.08 6.556a.75.75 0 0 1 1.062-.006ZM12 8.25a.75.75 0 0 0-.75.75v1.5a.75.75 0 0 0 1.5 0V9a.75.75 0 0 0-.75-.75ZM12 14.25a.75.75 0 0 0-.75.75v1.5a.75.75 0 0 0 1.5 0v-1.5a.75.75 0 0 0-.75-.75ZM18.75 11.25a.75.75 0 0 0-.75.75v1.5a.75.75 0 0 0 1.5 0v-1.5a.75.75 0 0 0-.75-.75Z" />
+                        <path fill-rule="evenodd" d="M12 6.75a5.25 5.25 0 0 0-4.07 8.356l-1.455 1.454a.75.75 0 1 0 1.06 1.06l1.454-1.454A5.25 5.25 0 1 0 12 6.75Z" clip-rule="evenodd" />
+                    </svg>
+                `;
+                label = `Pesticide-Free`;
+            }
+
+            const scoreText = `
+                <div class="flex items-center space-x-2">
+                    <span class="text-xl font-bold">${score}</span>
+                    <span class="text-sm font-light text-gray-500">/ 10</span>
+                </div>
+            `;
+
+            return `
+                <div class="flex items-center justify-between p-4 bg-[#E0D8D0]/50 rounded-lg">
+                    <div class="flex items-center space-x-3">
+                        ${icon}
+                        <span class="text-base font-semibold text-[#3D405B]">${label}</span>
+                    </div>
+                    ${scoreText}
+                </div>
+            `;
+        }
 
         function createContent(fabric) {
             const data = fabricData[fabric];
@@ -167,111 +255,14 @@
                             ${data.benefits.map(benefit => `<span class="bg-[#E0D8D0]/50 text-[#3D405B] text-sm font-medium px-3 py-1 rounded-full">${benefit}</span>`).join('')}
                         </div>
                     </div>
-                    <div>
-                        <div class="chart-container">
-                            <canvas id="fabricChart"></canvas>
-                        </div>
+                    <div class="space-y-4">
+                        <h4 class="text-lg font-bold text-center text-[#3D405B] mb-4">Sustainability & Performance Score</h4>
+                        ${getMetricDisplay('waterUsage', 10 - data.metrics.waterUsage)}
+                        ${getMetricDisplay('durability', data.metrics.durability)}
+                        ${getMetricDisplay('pesticideFree', data.metrics.pesticideFree)}
                     </div>
                 </div>
             `;
-        }
-
-        function createChart(fabric) {
-            const ctx = document.getElementById('fabricChart').getContext('2d');
-            const data = fabricData[fabric];
-
-            if (currentChart) {
-                currentChart.destroy();
-            }
-
-            currentChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Water Efficiency (Lower is Better)', 'Durability', 'Pesticide-Free'],
-                    datasets: [{
-                        label: fabric.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()),
-                        data: [10 - data.waterUsage, data.durability, data.pesticideFree], // Inverting water usage for visual representation
-                        backgroundColor: [
-                            'rgba(141, 141, 141, 0.6)', // Slate Gray
-                            'rgba(175, 155, 139, 0.6)', // Almond
-                            'rgba(224, 216, 208, 0.8)', // Pale Taupe
-                        ],
-                        borderColor: [
-                            'rgba(141, 141, 141, 1)',
-                            'rgba(175, 155, 139, 1)',
-                            'rgba(224, 216, 208, 1)',
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            max: 10,
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                font: {
-                                    family: "'Lato', sans-serif"
-                                }
-                            }
-                        },
-                        y: {
-                             ticks: {
-                                font: {
-                                    family: "'Lato', sans-serif",
-                                    size: 14
-                                },
-                                autoSkip: false,
-                                callback: function(value, index, values) {
-                                    const label = this.getLabelForValue(value);
-                                    if (label.length > 16) {
-                                        return label.match(/.{1,16}/g);
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        title: {
-                            display: true,
-                            text: 'Sustainability & Performance Score (out of 10)',
-                            font: {
-                                size: 16,
-                                family: "'Cormorant Garamond', serif"
-                            },
-                            padding: {
-                                bottom: 20
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.label === 'Water Efficiency (Lower is Better)') {
-                                        label += `${10 - context.raw} (Lower is better)`;
-                                    } else {
-                                        label += context.raw;
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
         }
 
         function changeTab(fabric) {
@@ -294,7 +285,6 @@
                 
                 // Change content
                 contentDiv.innerHTML = createContent(fabric);
-                createChart(fabric);
                 
                 // Fade in
                 contentDiv.style.opacity = 1;
@@ -304,8 +294,153 @@
         // Initial load
         document.addEventListener('DOMContentLoaded', () => {
             changeTab('hemp');
+
+            // AI Stylist Feature Logic
+            const stylistButton = document.getElementById('stylist-button');
+            const stylistPrompt = document.getElementById('stylist-prompt');
+            const stylistResponse = document.getElementById('stylist-response');
+            const stylistLoading = document.getElementById('stylist-loading');
+
+            stylistButton.addEventListener('click', async () => {
+                const prompt = stylistPrompt.value.trim();
+                if (!prompt) {
+                    stylistResponse.textContent = "Please enter a question or styling idea.";
+                    stylistResponse.classList.remove('hidden');
+                    return;
+                }
+                
+                // Show loading indicator and hide previous response
+                stylistLoading.classList.remove('hidden');
+                stylistResponse.classList.add('hidden');
+                stylistResponse.textContent = '';
+                
+                // Add context about the website to the prompt
+                const fullPrompt = `You are an expert fashion stylist for a sustainable brand called Terra Threads. The brand specializes in clothing made from hemp, linen, organic cotton, and ahimsa silk. These fabrics are known for being eco-friendly, durable, and chic. Based on this information and the user's query, provide a creative and concise styling tip or outfit idea. Your response should have a confident, stylish, and knowledgeable tone.
+                
+                User's request: ${prompt}`;
+
+                let retryCount = 0;
+                const maxRetries = 5;
+                const baseDelay = 1000;
+
+                const callGeminiApi = async (inputPrompt, responseElement, loadingElement) => {
+                    try {
+                        let chatHistory = [];
+                        chatHistory.push({ role: "user", parts: [{ text: inputPrompt }] });
+                        const payload = { contents: chatHistory };
+                        const apiKey = "";
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            if (response.status === 429 && retryCount < maxRetries) {
+                                const delay = baseDelay * Math.pow(2, retryCount);
+                                retryCount++;
+                                await new Promise(resolve => setTimeout(resolve, delay));
+                                return callGeminiApi(inputPrompt, responseElement, loadingElement);
+                            }
+                            throw new Error(`API call failed with status: ${response.status}`);
+                        }
+
+                        const result = await response.json();
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            const text = result.candidates[0].content.parts[0].text;
+                            responseElement.textContent = text;
+                        } else {
+                            responseElement.textContent = "I'm sorry, I couldn't generate a response. Please try again.";
+                        }
+                    } catch (error) {
+                        console.error('Error calling Gemini API:', error);
+                        responseElement.textContent = "An error occurred. Please check your network connection or try again later.";
+                    } finally {
+                        loadingElement.classList.add('hidden');
+                        responseElement.classList.remove('hidden');
+                    }
+                };
+                
+                callGeminiApi(fullPrompt, stylistResponse, stylistLoading);
+            });
+            
+            // Fabric Consultant Chatbot Logic
+            const consultantButton = document.getElementById('consultant-button');
+            const consultantPrompt = document.getElementById('consultant-prompt');
+            const consultantResponse = document.getElementById('consultant-response');
+            const consultantLoading = document.getElementById('consultant-loading');
+
+            consultantButton.addEventListener('click', async () => {
+                const prompt = consultantPrompt.value.trim();
+                if (!prompt) {
+                    consultantResponse.textContent = "Please enter a question about a fabric.";
+                    consultantResponse.classList.remove('hidden');
+                    return;
+                }
+                
+                // Show loading indicator and hide previous response
+                consultantLoading.classList.remove('hidden');
+                consultantResponse.classList.add('hidden');
+                consultantResponse.textContent = '';
+                
+                // Add context about the website to the prompt
+                const fullPrompt = `You are a knowledgeable fabric consultant for a sustainable brand called Terra Threads. The brand specializes in clothing made from hemp, linen, organic cotton, and ahimsa silk. These fabrics are known for being eco-friendly, durable, and chic. Based on this information and the user's query, provide a concise and factual answer about fabric care, properties, history, or environmental impact. Your response should be direct and informative, without being overly conversational.
+                
+                User's request: ${prompt}`;
+
+                let retryCount = 0;
+                const maxRetries = 5;
+                const baseDelay = 1000;
+
+                const callGeminiApi = async (inputPrompt, responseElement, loadingElement) => {
+                    try {
+                        let chatHistory = [];
+                        chatHistory.push({ role: "user", parts: [{ text: inputPrompt }] });
+                        const payload = { contents: chatHistory };
+                        const apiKey = "";
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            if (response.status === 429 && retryCount < maxRetries) {
+                                const delay = baseDelay * Math.pow(2, retryCount);
+                                retryCount++;
+                                await new Promise(resolve => setTimeout(resolve, delay));
+                                return callGeminiApi(inputPrompt, responseElement, loadingElement);
+                            }
+                            throw new Error(`API call failed with status: ${response.status}`);
+                        }
+
+                        const result = await response.json();
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            const text = result.candidates[0].content.parts[0].text;
+                            responseElement.textContent = text;
+                        } else {
+                            responseElement.textContent = "I'm sorry, I couldn't generate a response. Please try again.";
+                        }
+                    } catch (error) {
+                        console.error('Error calling Gemini API:', error);
+                        responseElement.textContent = "An error occurred. Please check your network connection or try again later.";
+                    } finally {
+                        loadingElement.classList.add('hidden');
+                        responseElement.classList.remove('hidden');
+                    }
+                };
+                
+                callGeminiApi(fullPrompt, consultantResponse, consultantLoading);
+            });
         });
     </script>
 </body>
 </html>
-
