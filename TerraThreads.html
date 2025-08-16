@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ultimate Guide to Sustainable Fabrics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals (Alabaster, Almond, Pale Taupe, Slate Gray) -->
+    <!-- Application Structure Plan: A single-page, multi-section layout. The structure begins with a hero section to set the tone, followed by an interactive fabric explorer. This explorer uses tabs for each fabric (Hemp, Linen, Organic Cotton, Ahimsa Silk), allowing users to switch between them without scrolling. Each tab contains key benefits, a style summary, and a data visualization comparing its sustainability metrics (water usage, durability). This structure was chosen to make comparison easy and to present dense information in a digestible, non-linear format, which is more engaging than a long scroll. A final section summarizes the brand philosophy. -->
+    <!-- Visualization & Content Choices: 
+        - Fabric Details: Report Info -> Fabric descriptions and benefits. Goal -> Inform & Compare. Viz/Method -> Tabbed interface with cards. Interaction -> User clicks tabs to reveal content. Justification -> Breaks down complex info, prevents overwhelming the user, facilitates direct comparison. Library/Method -> HTML/CSS/JS.
+        - Sustainability Metrics: Report Info -> Claims about water usage, durability, etc. Goal -> Compare. Viz/Method -> Horizontal Bar Chart. Interaction -> Chart updates dynamically when user switches fabric tabs. Justification -> Provides a quick, scannable visual comparison of key environmental benefits. Library/Method -> Chart.js.
+        - Brand Philosophy: Report Info -> "The Eye Has to Travel" and "Conclusion" sections. Goal -> Inform. Viz/Method -> Styled text block with a strong pull quote. Interaction -> Static display. Justification -> Reinforces brand message and concludes the narrative. Library/Method -> HTML/CSS.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #F7F3EE; /* Alabaster */
+            color: #3D405B; /* Slate Gray */
+        }
+        h1, h2, h3, .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .tab-active {
+            background-color: #E0D8D0; /* Pale Taupe */
+            color: #3D405B;
+            border-bottom-color: #AF9B8B; /* Almond */
+        }
+        .tab-inactive {
+            background-color: transparent;
+            color: #8D8D8D;
+            border-bottom-color: transparent;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        .link {
+            color: #AF9B8B;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .link:hover {
+            color: #3D405B;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Hero Section -->
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-[#3D405B] mb-4">A Declaration of Style</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-600 font-light">
+                The modern wardrobe is a reflection of values. This guide explores the fabulous and sustainable fabrics defining the future of conscious fashion, brought to you by <a href="#" class="font-semibold link">Terra Threads</a>.
+            </p>
+        </header>
+
+        <!-- Interactive Fabric Explorer -->
+        <section id="fabric-explorer" class="bg-white/50 rounded-2xl shadow-lg p-6 md:p-10">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-8 text-[#3D405B]">The Materials That Matter</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-10">
+                Each fabric tells a story of sustainability, endurance, and uncompromising style. Click on a fabric below to explore its unique properties and see how it compares. This interactive section allows you to directly compare the core benefits and sustainability metrics of each material used in our collection.
+            </p>
+
+            <!-- Tabs Navigation -->
+            <div class="flex justify-center border-b border-gray-200 mb-8 flex-wrap">
+                <button class="tab tab-active text-lg font-semibold py-3 px-6 border-b-2 transition-colors duration-300" onclick="changeTab('hemp')">Hemp</button>
+                <button class="tab tab-inactive text-lg font-semibold py-3 px-6 border-b-2 transition-colors duration-300" onclick="changeTab('linen')">Linen</button>
+                <button class="tab tab-inactive text-lg font-semibold py-3 px-6 border-b-2 transition-colors duration-300" onclick="changeTab('organic_cotton')">Organic Cotton</button>
+                <button class="tab tab-inactive text-lg font-semibold py-3 px-6 border-b-2 transition-colors duration-300" onclick="changeTab('ahimsa_silk')">Ahimsa Silk</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div id="tab-content" class="transition-opacity duration-500">
+                <!-- Content will be injected by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Brand Philosophy Section -->
+        <section id="philosophy" class="mt-20 text-center">
+             <h2 class="text-3xl md:text-4xl font-bold text-[#3D405B] mb-6">The Eye Has to Travel</h2>
+             <div class="max-w-3xl mx-auto bg-white/50 rounded-2xl shadow-lg p-8">
+                <p class="text-lg md:text-xl text-gray-700 mb-6 italic">
+                    "Fashion is not static; it's a journey! Our pieces are not merely clothes; they are monuments to a new way of thinking. We believe in quality over quantity, and in the power of a wardrobe with a purpose."
+                </p>
+                <p class="text-gray-600 font-light">
+                    Choosing clothes with intention is a thrilling decision. By understanding the story of each thread, you are not just building a wardrobe—you are designing a life with purpose and flair. We invite you to lose yourself in our collection. Go on, darling. The eye has to travel!
+                </p>
+             </div>
+        </section>
+    </main>
+
+    <footer class="text-center py-6 mt-12 border-t border-gray-200">
+        <p class="text-gray-500">&copy; 2025 Terra Threads. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const fabricData = {
+            hemp: {
+                title: 'The Foundation of Indestructible Style',
+                description: "Hemp isn't just a sustainable option; it's a regenerative powerhouse. It requires minimal water and no pesticides, and its deep roots actually enrich the soil. As a fabric, it has an endurance and strength that gets better with time, softening beautifully with every wash.",
+                style: 'Perfect for the woman with purpose. Ideal for timeless, sharp blazers and perfect trousers—pieces that will never give up on her.',
+                benefits: ['Regenerative Crop', 'Highly Durable', 'Breathable', 'Softens with Age'],
+                metrics: {
+                    waterUsage: 2, // Relative scale 1-10 (lower is better)
+                    durability: 9, // Relative scale 1-10 (higher is better)
+                    pesticideFree: 10 // Relative scale 1-10 (higher is better)
+                }
+            },
+            linen: {
+                title: 'The Breath of Pure Chic',
+                description: "Derived from the resilient flax plant, linen is a highly durable and biodegradable material that requires very little water to cultivate. The beauty of linen is its honesty; its creases and crinkles tell the story of a life lived, giving it a uniquely relaxed and sophisticated charm.",
+                style: 'For the woman with an inner chicness that doesn\'t need to try too hard. Perfect for flowing dresses, elegant blouses, and wide-leg pants.',
+                benefits: ['Biodegradable', 'Low Water Use', 'Lightweight & Breathable', 'Durable'],
+                metrics: {
+                    waterUsage: 3,
+                    durability: 8,
+                    pesticideFree: 9
+                }
+            },
+            organic_cotton: {
+                title: 'The Ultimate Luxury of Innocence',
+                description: "Unlike conventional cotton, organic cotton is cultivated without a single harmful chemical. This approach protects farmer health, preserves soil biodiversity, and ensures the fabric is pure against your skin. It's celebrated for its unmatched softness and versatility.",
+                style: 'The ultimate foundation of a conscious wardrobe. Ideal for the perfect white tee or a comfortable skirt—a quiet luxury that screams volumes.',
+                benefits: ['Chemical-Free', 'Protects Biodiversity', 'Incredibly Soft', 'Versatile'],
+                metrics: {
+                    waterUsage: 5, // Less than conventional, more than hemp/linen
+                    durability: 6,
+                    pesticideFree: 10
+                }
+            },
+            ahimsa_silk: {
+                title: 'The Glamour of Compassion',
+                description: 'Ahimsa silk, or "peace silk," offers a beautiful and ethical alternative to conventional methods. The silkworms are allowed to complete their metamorphosis and emerge from their cocoons naturally before the silk is harvested, a process rooted in non-violence.',
+                style: 'For the woman who knows true luxury is about how something was made. Perfect for a statement blouse or an elevated dress for a special occasion.',
+                benefits: ['Cruelty-Free', 'Ethical Production', 'Natural Luster', 'Elegant Drape'],
+                metrics: {
+                    waterUsage: 4,
+                    durability: 7,
+                    pesticideFree: 10
+                }
+            }
+        };
+
+        let currentChart;
+
+        function createContent(fabric) {
+            const data = fabricData[fabric];
+            return `
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <div class="text-left">
+                        <h3 class="text-2xl md:text-3xl font-bold text-[#AF9B8B] mb-4">${data.title}</h3>
+                        <p class="text-gray-600 mb-4 font-light">${data.description}</p>
+                        <p class="text-gray-700 mb-6 italic">${data.style}</p>
+                        <div class="flex flex-wrap gap-3">
+                            ${data.benefits.map(benefit => `<span class="bg-[#E0D8D0]/50 text-[#3D405B] text-sm font-medium px-3 py-1 rounded-full">${benefit}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="chart-container">
+                            <canvas id="fabricChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createChart(fabric) {
+            const ctx = document.getElementById('fabricChart').getContext('2d');
+            const data = fabricData[fabric];
+
+            if (currentChart) {
+                currentChart.destroy();
+            }
+
+            currentChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Water Efficiency (Lower is Better)', 'Durability', 'Pesticide-Free'],
+                    datasets: [{
+                        label: fabric.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()),
+                        data: [10 - data.waterUsage, data.durability, data.pesticideFree], // Inverting water usage for visual representation
+                        backgroundColor: [
+                            'rgba(141, 141, 141, 0.6)', // Slate Gray
+                            'rgba(175, 155, 139, 0.6)', // Almond
+                            'rgba(224, 216, 208, 0.8)', // Pale Taupe
+                        ],
+                        borderColor: [
+                            'rgba(141, 141, 141, 1)',
+                            'rgba(175, 155, 139, 1)',
+                            'rgba(224, 216, 208, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 10,
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    family: "'Lato', sans-serif"
+                                }
+                            }
+                        },
+                        y: {
+                             ticks: {
+                                font: {
+                                    family: "'Lato', sans-serif",
+                                    size: 14
+                                },
+                                autoSkip: false,
+                                callback: function(value, index, values) {
+                                    const label = this.getLabelForValue(value);
+                                    if (label.length > 16) {
+                                        return label.match(/.{1,16}/g);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Sustainability & Performance Score (out of 10)',
+                            font: {
+                                size: 16,
+                                family: "'Cormorant Garamond', serif"
+                            },
+                            padding: {
+                                bottom: 20
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.label === 'Water Efficiency (Lower is Better)') {
+                                        label += `${10 - context.raw} (Lower is better)`;
+                                    } else {
+                                        label += context.raw;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function changeTab(fabric) {
+            const contentDiv = document.getElementById('tab-content');
+            
+            // Fade out
+            contentDiv.style.opacity = 0;
+
+            setTimeout(() => {
+                // Update active tab styles
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.classList.remove('tab-active');
+                    tab.classList.add('tab-inactive');
+                });
+                const targetButton = document.querySelector(`[onclick="changeTab('${fabric}')"]`);
+                if (targetButton) {
+                    targetButton.classList.add('tab-active');
+                    targetButton.classList.remove('tab-inactive');
+                }
+                
+                // Change content
+                contentDiv.innerHTML = createContent(fabric);
+                createChart(fabric);
+                
+                // Fade in
+                contentDiv.style.opacity = 1;
+            }, 300);
+        }
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            changeTab('hemp');
+        });
+    </script>
+</body>
+</html>
+
