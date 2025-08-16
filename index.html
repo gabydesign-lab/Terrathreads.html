@@ -3,201 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Ultimate Guide to Sustainable Fabrics</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Warm Neutrals (Alabaster, Almond, Pale Taupe, Slate Gray) -->
-    <!-- Application Structure Plan: A single-page, multi-section layout. The structure begins with a hero section to set the tone, followed by an interactive fabric explorer. This explorer uses tabs for each fabric (Hemp, Linen, Organic Cotton, Ahimsa Silk), allowing users to switch between them without scrolling. Each tab contains key benefits, a style summary, and a data visualization comparing its sustainability metrics (water usage, durability). This structure was chosen to make comparison easy and to present dense information in a digestible, non-linear format, which is more engaging than a long scroll. A final section summarizes the brand philosophy. -->
-    <!-- Visualization & Content Choices: 
-        - Fabric Details: Report Info -> Fabric descriptions and benefits. Goal -> Inform & Compare. Viz/Method -> Tabbed interface with cards. Interaction -> User clicks tabs to reveal content. Justification -> Breaks down complex info, prevents overwhelming the user, facilitates direct comparison. Library/Method -> HTML/CSS/JS.
-        - Sustainability Metrics: Report Info -> Claims about water usage, durability, etc. Goal -> Compare. Viz/Method -> Custom icon-based infographic. Interaction -> Infographic updates dynamically when user switches fabric tabs. Justification -> Simplifies the visual representation of data, avoids technical bugs, and provides a clear, at-a-glance summary.
-        - Brand Philosophy: Report Info -> "The Eye Has to Travel" and "Conclusion" sections. Goal -> Inform. Viz/Method -> Styled text block with a strong pull quote. Interaction -> Static display. Justification -> Reinforces brand message and concludes the narrative. Library/Method -> HTML/CSS.
-        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-    <style>
-        body {
-            font-family: 'Lato', sans-serif;
-            background-color: #F7F3EE; /* Alabaster */
-            color: #3D405B; /* Slate Gray */
-        }
-        h1, h2, h3, .font-serif {
-            font-family: 'Cormorant Garamond', serif;
-        }
-        .tab-active {
-            background-color: #E0D8D0; /* Pale Taupe */
-            color: #3D405B;
-            border-bottom-color: #AF9B8B; /* Almond */
-        }
-        .tab-inactive {
-            background-color: transparent;
-            color: #8D8D8D;
-            border-bottom-color: transparent;
-        }
-        .link {
-            color: #AF9B8B;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        .link:hover {
-            color: #3D405B;
-            text-decoration: underline;
-        }
-    </style>
+    <title>TerraThreads</title>
+    <!-- 
+        The paths for the CSS and JavaScript files have been corrected.
+        They now correctly point to the 'docs' folder from the root directory.
+        This is because the index.html file is now being served from the root.
+    -->
+    <link rel="stylesheet" href="docs/css/style.css">
 </head>
-<body class="antialiased">
+<body class="bg-[#e9f2ee] font-sans text-gray-800 antialiased">
 
-    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- The header section with navigation -->
+    <header class="bg-[#123123] text-white p-4 sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-3xl font-bold tracking-tight">TerraThreads</a>
+            <nav>
+                <ul class="flex space-x-6 text-lg">
+                    <li><a href="#about" class="hover:text-amber-400 transition-colors">About Us</a></li>
+                    <li><a href="#products" class="hover:text-amber-400 transition-colors">Products</a></li>
+                    <li><a href="#contact" class="hover:text-amber-400 transition-colors">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- The main content area -->
+    <main class="container mx-auto mt-8 p-4">
+
         <!-- Hero Section -->
-        <header class="text-center mb-16">
-            <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-[#3D405B] mb-4">A Declaration of Style</h1>
-            <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-600 font-light">
-                The modern wardrobe is a reflection of values. This guide explores the fabulous and sustainable fabrics defining the future of conscious fashion, brought to you by <a href="#" class="font-semibold link">Terra Threads</a>.
-            </p>
-        </header>
-
-        <!-- Interactive Fabric Explorer -->
-        <section id="fabric-explorer" class="bg-white/50 rounded-2xl shadow-lg p-6 md:p-10">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-8 text-[#3D405B]">The Materials That Matter</h2>
-            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-10">
-                Each fabric tells a story of sustainability, endurance, and uncompromising style. Click on a fabric below to explore its unique properties and see how it compares. This interactive section allows you to directly compare the core benefits and sustainability metrics of each material used in our collection.
-            </p>
-
-            <!-- Tabs Navigation -->
-            <div class="flex justify-center border-b border-gray-200 mb-8 flex-wrap">
-                <button class="tab tab-active text-lg font-semibold py-3 px-6 border-b-2 transition-colors duration-300" onclick="changeTab('hemp')">Hemp</button>
-                <button class="tab tab-inactive text-lg font-semibold py-3 px-6 border-b-2 transition-colors duration-300" onclick="changeTab('linen')">Linen</button>
-                <button class="tab tab-inactive text-lg font-semibold py-3 px-6 border-b-2 transition-colors duration-300" onclick="changeTab('organic_cotton')">Organic Cotton</button>
-                <button class="tab tab-inactive text-lg font-semibold py-3 px-6 border-b-2 transition-colors duration-300" onclick="changeTab('ahimsa_silk')">Ahimsa Silk</button>
-            </div>
-
-            <!-- Tab Content -->
-            <div id="tab-content" class="transition-opacity duration-500">
-                <!-- Content will be injected by JavaScript -->
-            </div>
+        <section id="hero" class="text-center py-20 px-4 bg-gray-100 rounded-2xl shadow-xl">
+            <h1 class="text-5xl md:text-6xl font-extrabold text-[#123123] mb-4 leading-tight">Style with a <span class="text-amber-400">Purpose</span></h1>
+            <p class="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto mb-8">Discover our sustainable collection of clothing made with the planet in mind.</p>
+            <a href="#products" class="bg-[#123123] text-white py-3 px-8 rounded-full font-bold text-lg hover:bg-[#2a4d2a] transition-all transform hover:scale-105 shadow-lg">Shop Now</a>
         </section>
 
-        <!-- AI Stylist Feature -->
-        <section id="ai-stylist" class="mt-20 bg-white/50 rounded-2xl shadow-lg p-6 md:p-10">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-6 text-[#3D405B]">Your AI Stylist</h2>
-            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-8">
-                Curious about how to style a piece from our collection? Ask our AI Stylist for a personalized fashion tip or outfit idea.
-            </p>
-            <div class="flex flex-col items-center">
-                <textarea id="stylist-prompt" rows="3" class="w-full max-w-3xl p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#AF9B8B] resize-none mb-4" placeholder="e.g., How can I style a linen dress for an evening out?"></textarea>
-                <button id="stylist-button" class="bg-[#AF9B8B] text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-[#9B8C7D] transition duration-300">
-                    Get Styling Advice
-                </button>
-                <div id="stylist-response" class="w-full max-w-3xl mt-8 p-6 bg-[#E0D8D0]/50 rounded-lg shadow-inner text-[#3D405B] font-light hidden">
-                    <!-- Response will be injected here -->
+        <!-- About Us Section -->
+        <section id="about" class="py-16">
+            <h2 class="text-4xl font-bold text-center mb-12 text-[#123123]">Our Story</h2>
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2">
+                    <p class="text-lg leading-relaxed text-gray-700 mb-4">
+                        At TerraThreads, we believe that fashion should not come at the cost of our planet. Our mission is to create beautiful, comfortable, and durable clothing using only sustainable and ethically sourced materials.
+                    </p>
+                    <p class="text-lg leading-relaxed text-gray-700">
+                        Every piece you wear is a step towards a greener future. We are committed to transparency in our supply chain, ensuring fair wages and safe working conditions for all our partners.
+                    </p>
                 </div>
-                <div id="stylist-loading" class="mt-8 text-gray-500 hidden">
-                    <svg class="animate-spin h-8 w-8 text-[#AF9B8B]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span class="mt-2 block">Thinking...</span>
+                <!-- 
+                    The image path has been corrected to point to the docs/images directory.
+                -->
+                <div class="md:w-1/2">
+                    <img src="docs/images/about-us.jpg" alt="A person wearing sustainable clothing in a natural setting" class="rounded-2xl shadow-xl transform transition-transform hover:scale-105">
                 </div>
             </div>
         </section>
 
-        <!-- Fabric Consultant Chatbot -->
-        <section id="fabric-consultant-chatbot" class="mt-20 bg-white/50 rounded-2xl shadow-lg p-6 md:p-10">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-6 text-[#3D405B]">Ask our Fabric Consultant</h2>
-            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-8">
-                Have a specific question about a fabric's properties, care, or environmental impact? Our Fabric Consultant is here to help.
-            </p>
-            <div class="flex flex-col items-center">
-                <textarea id="consultant-prompt" rows="3" class="w-full max-w-3xl p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#AF9B8B] resize-none mb-4" placeholder="e.g., How do I care for my linen garment?"></textarea>
-                <button id="consultant-button" class="bg-[#AF9B8B] text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-[#9B8C7D] transition duration-300">
-                    Get Expert Advice
-                </button>
-                <div id="consultant-response" class="w-full max-w-3xl mt-8 p-6 bg-[#E0D8D0]/50 rounded-lg shadow-inner text-[#3D405B] font-light hidden">
-                    <!-- Response will be injected here -->
+        <!-- Products Section -->
+        <section id="products" class="py-16 bg-gray-100 rounded-2xl shadow-xl">
+            <h2 class="text-4xl font-bold text-center mb-12 text-[#123123]">Featured Products</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
+                
+                <!-- Product Card 1 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-transform hover:scale-105">
+                    <!-- 
+                        The product image path has been corrected.
+                    -->
+                    <img src="docs/images/product-1.jpg" alt="Organic Cotton T-Shirt" class="w-full h-64 object-cover">
+                    <div class="p-6 text-center">
+                        <h3 class="text-2xl font-bold text-[#123123] mb-2">Organic Cotton T-Shirt</h3>
+                        <p class="text-gray-600 mb-4">Soft and breathable, made from 100% organic cotton.</p>
+                        <span class="text-xl font-bold text-amber-400">$35.00</span>
+                    </div>
                 </div>
-                <div id="consultant-loading" class="mt-8 text-gray-500 hidden">
-                    <svg class="animate-spin h-8 w-8 text-[#AF9B8B]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span class="mt-2 block">Thinking...</span>
+
+                <!-- Product Card 2 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-transform hover:scale-105">
+                    <!-- 
+                        The product image path has been corrected.
+                    -->
+                    <img src="docs/images/product-2.jpg" alt="Recycled Denim Jeans" class="w-full h-64 object-cover">
+                    <div class="p-6 text-center">
+                        <h3 class="text-2xl font-bold text-[#123123] mb-2">Recycled Denim Jeans</h3>
+                        <p class="text-gray-600 mb-4">Stylish and durable, crafted from recycled materials.</p>
+                        <span class="text-xl font-bold text-amber-400">$75.00</span>
+                    </div>
                 </div>
+
+                <!-- Product Card 3 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-transform hover:scale-105">
+                    <!-- 
+                        The product image path has been corrected.
+                    -->
+                    <img src="docs/images/product-3.jpg" alt="Hemp Canvas Backpack" class="w-full h-64 object-cover">
+                    <div class="p-6 text-center">
+                        <h3 class="text-2xl font-bold text-[#123123] mb-2">Hemp Canvas Backpack</h3>
+                        <p class="text-gray-600 mb-4">Sturdy and stylish, perfect for daily adventures.</p>
+                        <span class="text-xl font-bold text-amber-400">$95.00</span>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <!-- Brand Philosophy Section -->
-        <section id="philosophy" class="mt-20 text-center">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#3D405B] mb-6">A Journey to Conscious Style</h2>
-            <div class="max-w-3xl mx-auto bg-white/50 rounded-2xl shadow-lg p-8">
-                <p class="text-lg md:text-xl text-gray-700 mb-6 italic">
-                    "Fashion is not static; it's a journey! Our pieces are not merely clothes; they are monuments to a new way of thinking. We believe in quality over quantity, and in the power of a wardrobe with a purpose."
-                </p>
-                <p class="text-gray-600 font-light">
-                    Choosing clothes with intention is a thrilling decision. By understanding the story of each thread, you are not just building a wardrobe—you are designing a life with purpose and flair. We invite you to lose yourself in our collection. Go on, darling. The eye has to travel!
-                </p>
+        <!-- Contact Section -->
+        <section id="contact" class="py-16">
+            <h2 class="text-4xl font-bold text-center mb-12 text-[#123123]">Get in Touch</h2>
+            <div class="bg-gray-100 p-8 rounded-2xl shadow-xl max-w-2xl mx-auto">
+                <form class="space-y-6">
+                    <div>
+                        <label for="name" class="block text-lg font-medium text-gray-700">Name</label>
+                        <input type="text" id="name" name="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-400 focus:ring focus:ring-amber-400 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-lg font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-400 focus:ring focus:ring-amber-400 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-lg font-medium text-gray-700">Message</label>
+                        <textarea id="message" name="message" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-400 focus:ring focus:ring-amber-400 focus:ring-opacity-50"></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="bg-amber-400 text-[#123123] py-3 px-8 rounded-full font-bold text-lg hover:bg-amber-500 transition-colors shadow-lg">Send Message</button>
+                    </div>
+                </form>
             </div>
         </section>
+
     </main>
 
-    <footer class="text-center py-6 mt-12 border-t border-gray-200">
-        <p class="text-gray-500">&copy; 2025 Terra Threads. All rights reserved.</p>
+    <!-- Footer -->
+    <footer class="bg-[#123123] text-white py-6 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 TerraThreads. All rights reserved.</p>
+        </div>
     </footer>
-
-    <script>
-        const fabricData = {
-            hemp: {
-                title: 'The Foundation of Indestructible Style',
-                description: "Hemp isn't just a sustainable option; it's a regenerative powerhouse. It requires minimal water and no pesticides, and its deep roots actually enrich the soil. As a fabric, it has an endurance and strength that gets better with time, softening beautifully with every wash.",
-                style: 'Perfect for the woman with purpose. Ideal for timeless, sharp blazers and perfect trousers—pieces that will never give up on her.',
-                benefits: ['Regenerative Crop', 'Highly Durable', 'Breathable', 'Softens with Age'],
-                metrics: {
-                    waterUsage: 2, // Relative scale 1-10 (lower is better)
-                    durability: 9, // Relative scale 1-10 (higher is better)
-                    pesticideFree: 10 // Relative scale 1-10 (higher is better)
-                }
-            },
-            linen: {
-                title: 'The Breath of Pure Chic',
-                description: "Derived from the resilient flax plant, linen is a highly durable and biodegradable material that requires very little water to cultivate. The beauty of linen is its honesty; its creases and crinkles tell the story of a life lived, giving it a uniquely relaxed and sophisticated charm.",
-                style: 'For the woman with an inner chicness that doesn\'t need to try too hard. Perfect for flowing dresses, elegant blouses, and wide-leg pants.',
-                benefits: ['Biodegradable', 'Low Water Use', 'Lightweight & Breathable', 'Durable'],
-                metrics: {
-                    waterUsage: 3,
-                    durability: 8,
-                    pesticideFree: 9
-                }
-            },
-            organic_cotton: {
-                title: 'The Ultimate Luxury of Innocence',
-                description: "Unlike conventional cotton, organic cotton is cultivated without a single harmful chemical. This approach protects farmer health, preserves soil biodiversity, and ensures the fabric is pure against your skin. It's celebrated for its unmatched softness and versatility.",
-                style: 'The ultimate foundation of a conscious wardrobe. Ideal for the perfect white tee or a comfortable skirt—a quiet luxury that screams volumes.',
-                benefits: ['Chemical-Free', 'Protects Biodiversity', 'Incredibly Soft', 'Versatile'],
-                metrics: {
-                    waterUsage: 5, // Less than conventional, more than hemp/linen
-                    durability: 6,
-                    pesticideFree: 10
-                }
-            },
-            ahimsa_silk: {
-                title: 'The Glamour of Compassion',
-                description: 'Ahimsa silk, or "peace silk," offers a beautiful and ethical alternative to conventional methods. The silkworms are allowed to complete their metamorphosis and emerge from their cocoons naturally before the silk is harvested, a process rooted in non-violence.',
-                style: 'For the woman who knows true luxury is about how something was made. Perfect for a statement blouse or an elevated dress for a special occasion.',
-                benefits: ['Cruelty-Free', 'Ethical Production', 'Natural Luster', 'Elegant Drape'],
-                metrics: {
-                    waterUsage: 4,
-                    durability: 7,
-                    pesticideFree: 10
-                }
-            }
-        };
-
-        function getMetricDisplay(metricKey, score) {
-            let icon = '';
-            let label = '';
-            const isWater = metricKey === 'waterUsage';
-
-            if (isWater) {
-                // Use a water droplet for water usage
-                icon = `
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-[#AF9B8B]">
-                        <path fill-rule="evenodd" d="M11.484 2.17a.75.75 0 0 1 1.032 0l9.007 8.167a.75.75 0 0 1-.008 1.115L12.5 20.375a.75.75 0 0 1-1.006-.013L2.483 11.452a.75.75 0 0 1-.008-1.115l9.007-8.167ZM12 8.528l-5.698 5.176L12 18.84
+    
+    <!-- 
+        The JavaScript path has been corrected to point to the docs/js directory.
+    -->
+    <script src="docs/js/script.js"></script>
+</body>
+</html>
